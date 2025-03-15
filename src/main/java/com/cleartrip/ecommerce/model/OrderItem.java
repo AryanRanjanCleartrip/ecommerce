@@ -16,18 +16,23 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // one order item can have one order
+    // parent uses JsonBackReference to avoid infinite recursion
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    // one order item can have one product
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    // quantity of the product
     @Column(nullable = false)
     private Integer quantity;
 
+    // price of the product
     @Column(nullable = false)
     private Double price;
 } 

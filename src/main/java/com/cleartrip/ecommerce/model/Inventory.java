@@ -16,6 +16,8 @@ public class Inventory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // one inventory can have one product
+    // parent uses JsonBackReference to avoid infinite recursion
     @JsonBackReference
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false)

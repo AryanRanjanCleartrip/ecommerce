@@ -13,6 +13,7 @@ public class InventoryService {
     @Autowired
     private InventoryRepository inventoryRepository;
 
+    // add stock
     public Inventory addStock(Product product, Integer quantity) {
         Optional<Inventory> existingInventory = inventoryRepository.findByProduct(product);
         if (existingInventory.isPresent()) {
@@ -27,6 +28,7 @@ public class InventoryService {
         }
     }
 
+    // update stock
     public Optional<Inventory> updateStock(Product product, Integer quantity) {
         Optional<Inventory> existingInventory = inventoryRepository.findByProduct(product);
         if (existingInventory.isPresent()) {
@@ -37,6 +39,7 @@ public class InventoryService {
         return Optional.empty();
     }
 
+    // delete stock
     public boolean deleteStock(Product product) {
         Optional<Inventory> inventory = inventoryRepository.findByProduct(product);
         if (inventory.isPresent()) {
@@ -46,10 +49,12 @@ public class InventoryService {
         return false;
     }
 
+    // get all inventory
     public List<Inventory> getAllInventory() {
         return inventoryRepository.findAll();
     }
 
+    // get inventory by product
     public Optional<Inventory> getInventoryByProduct(Product product) {
         return inventoryRepository.findByProduct(product);
     }

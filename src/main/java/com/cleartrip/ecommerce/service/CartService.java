@@ -15,6 +15,7 @@ public class CartService {
     @Autowired
     private InventoryService inventoryService;
 
+    // get or create cart
     public Optional<Cart> getOrCreateCart(User user) {
         Optional<Cart> existingCart = cartRepository.findByUser(user);
         if (existingCart.isPresent()) {
@@ -27,6 +28,7 @@ public class CartService {
         }
     }
 
+    // add to cart
     public Optional<Cart> addToCart(User user, Product product, Integer quantity) {
         Optional<Cart> cartOptional = getOrCreateCart(user);
         if (cartOptional.isPresent()) {
@@ -58,6 +60,7 @@ public class CartService {
         return Optional.empty();
     }
 
+    // remove from cart
     public Optional<Cart> removeFromCart(User user, Product product) {
         Optional<Cart> cartOptional = cartRepository.findByUser(user);
         if (cartOptional.isPresent()) {
@@ -68,10 +71,12 @@ public class CartService {
         return Optional.empty();
     }
 
+    // get cart by user
     public Optional<Cart> getCartByUser(User user) {
         return cartRepository.findByUser(user);
     }
 
+    // clear cart
     public void clearCart(Cart cart) {
         cart.getItems().clear();
         cartRepository.save(cart);

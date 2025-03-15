@@ -18,20 +18,27 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // many order can have one user
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // one order can have many order items
+    // child uses JsonManagedReference to avoid infinite recursion
+    // parent uses JsonBackReference to avoid infinite recursion
     @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items;
 
+    // order date
     @Column(nullable = false)
     private LocalDateTime orderDate;
 
+    // total amount
     @Column(nullable = false)
     private Double totalAmount;
 
+    // order status enum
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus status;

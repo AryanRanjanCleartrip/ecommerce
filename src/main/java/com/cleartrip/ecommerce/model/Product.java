@@ -28,6 +28,8 @@ public class Product {
     @Column(nullable = false)
     private String category;
 
+    // one product can have one inventory
+    // child uses JsonManagedReference to avoid infinite recursion
     @JsonManagedReference
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private Inventory inventory;

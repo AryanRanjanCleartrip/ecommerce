@@ -17,10 +17,13 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // one cart can have one user
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // one cart can have many cart items
+    // child uses JsonManagedReference to avoid infinite recursion
     @JsonManagedReference
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items;

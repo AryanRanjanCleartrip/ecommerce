@@ -14,6 +14,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    // create product
     @Transactional
     public Product createProduct(Product product) {
         if (product.getInventory() != null) {
@@ -27,6 +28,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    // update product
     @Transactional
     public Optional<Product> updateProduct(Long id, Product updatedProduct) {
         return productRepository.findById(id)
@@ -47,6 +49,7 @@ public class ProductService {
             });
     }
 
+    // delete product
     public boolean deleteProduct(Long id) {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
@@ -55,18 +58,22 @@ public class ProductService {
         return false;
     }
 
+    // get all products
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
+    // get product by id
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);
     }
 
+    // search product by name
     public List<Product> searchByName(String name) {
         return productRepository.findByNameContainingIgnoreCase(name);
     }
 
+    // search product by category
     public List<Product> searchByCategory(String category) {
         return productRepository.findByCategoryIgnoreCase(category);
     }

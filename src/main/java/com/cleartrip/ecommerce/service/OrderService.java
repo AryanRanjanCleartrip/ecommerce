@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+// import org.springframework.security.access.prepost.PreAuthorize;
 
 @Service
 public class OrderService {
@@ -21,13 +22,13 @@ public class OrderService {
     @Autowired
     private InventoryService inventoryService;
 
+    // order place kr rhe
     @Transactional
     public Optional<Order> placeOrder(User user) {
         Optional<Cart> cartOptional = cartService.getCartByUser(user);
         if (cartOptional.isPresent() && !cartOptional.get().getItems().isEmpty()) {
             Cart cart = cartOptional.get();
             
-            // Check inventory and calculate total
             double totalAmount = 0;
             for (CartItem cartItem : cart.getItems()) {
                 Optional<Inventory> inventoryOptional = inventoryService.getInventoryByProduct(cartItem.getProduct());
@@ -37,7 +38,7 @@ public class OrderService {
                 totalAmount += cartItem.getProduct().getPrice() * cartItem.getQuantity();
             }
 
-            // Create order
+            // order create kr rhe
             Order order = new Order();
             order.setUser(user);
             order.setOrderDate(LocalDateTime.now());
@@ -45,7 +46,7 @@ public class OrderService {
             order.setStatus(OrderStatus.PENDING);
             order.setItems(new ArrayList<>());
 
-            // Create order items and update inventory
+            // order items create kr rhe and inventory update kr rhe
             for (CartItem cartItem : cart.getItems()) {
                 OrderItem orderItem = new OrderItem();
                 orderItem.setOrder(order);
@@ -54,13 +55,13 @@ public class OrderService {
                 orderItem.setPrice(cartItem.getProduct().getPrice());
                 order.getItems().add(orderItem);
 
-                // Update inventory
+                // inventory update kr rhe
                 Inventory inventory = inventoryService.getInventoryByProduct(cartItem.getProduct()).get();
                 inventory.setQuantity(inventory.getQuantity() - cartItem.getQuantity());
                 inventoryService.updateStock(cartItem.getProduct(), inventory.getQuantity());
             }
 
-            // Save order and clear cart
+                // order save kiya and then cart clear kro
             Order savedOrder = orderRepository.save(order);
             cartService.clearCart(cart);
             return Optional.of(savedOrder);
@@ -68,10 +69,12 @@ public class OrderService {
         return Optional.empty();
     }
 
+    // get order by id
     public Optional<Order> getOrderById(Long id) {
         return orderRepository.findById(id);
     }
 
+    // get orders by user
     public List<Order> getOrdersByUser(User user) {
         return orderRepository.findByUserOrderByOrderDateDesc(user);
     }

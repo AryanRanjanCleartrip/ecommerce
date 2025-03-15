@@ -21,12 +21,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    // user role enum
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
-}
-
-enum UserRole {
-    CUSTOMER,
-    ADMIN
 } 

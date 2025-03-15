@@ -21,6 +21,7 @@ public class CartController {
     @Autowired
     private ProductService productService;
 
+    // add to cart
     @PostMapping("/{userId}/add/{productId}")
     public ResponseEntity<Object> addToCart(
             @PathVariable Long userId,
@@ -33,6 +34,7 @@ public class CartController {
                 .orElse(ResponseEntity.badRequest().body(Map.of("message", "Failed to add item to cart")));
     }
 
+    // remove from cart
     @DeleteMapping("/{userId}/remove/{productId}")
     public ResponseEntity<?> removeFromCart(
             @PathVariable Long userId,
@@ -44,6 +46,7 @@ public class CartController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // get cart
     @GetMapping("/{userId}")
     public ResponseEntity<?> getCart(@PathVariable Long userId) {
         return userService.getUserById(userId)

@@ -16,11 +16,14 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // one cart item can have one cart
+    // parent uses JsonBackReference to avoid infinite recursion
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
+    // one cart item can have one product
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
