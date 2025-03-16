@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
-
+import org.springframework.data.domain.Sort;
 @Service
 public class ProductService {
     @Autowired
@@ -76,5 +76,19 @@ public class ProductService {
     // search product by category
     public List<Product> searchByCategory(String category) {
         return productRepository.findByCategoryIgnoreCase(category);
+    }
+
+    // filter products by category and price range
+    public List<Product> filterProducts(String category, Double minPrice, Double maxPrice) {
+        return productRepository.findByFilters(category, minPrice, maxPrice);
+    }
+
+    //sort products by price
+    public List<Product> sortProducts(String order){
+        if(order.equals("asc")){
+            return productRepository.findAll(Sort.by(Sort.Direction.ASC, "price"));
+        }else{
+            return productRepository.findAll(Sort.by(Sort.Direction.DESC, "price"));
+        }
     }
 } 

@@ -68,5 +68,23 @@ public class ProductController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-   
+    // search product by category
+    @GetMapping("/search/category")
+    public ResponseEntity<List<Product>> searchByCategory(@RequestParam String category) {
+        return ResponseEntity.ok(productService.searchByCategory(category));
+    }
+
+    // filter products
+    @GetMapping("/filter")
+    public ResponseEntity<List<Product>> filterProducts(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice) {
+        return ResponseEntity.ok(productService.filterProducts(category, minPrice, maxPrice));
+    }
+
+    @GetMapping("/sort")
+    public ResponseEntity<List<Product>>sortProducts(@RequestParam(required = true) String order){
+        return ResponseEntity.ok(productService.sortProducts(order));
+    }
 } 
