@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +29,7 @@ public class OrderServiceTest {
     @Mock
     private InventoryService inventoryService;
 
-    @InjectMocks
+    @Autowired
     private OrderService orderService;
 
     private User testUser;
