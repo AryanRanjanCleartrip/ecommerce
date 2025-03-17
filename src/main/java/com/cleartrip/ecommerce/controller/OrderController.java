@@ -42,4 +42,4 @@ public class OrderController {
                 .map(user -> ResponseEntity.ok(orderService.getOrdersByUser(user)))
                 .orElse(ResponseEntity.notFound().build());
     }
-} 
+}

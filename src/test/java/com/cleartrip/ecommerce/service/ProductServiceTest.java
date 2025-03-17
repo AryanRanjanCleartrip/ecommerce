@@ -43,6 +43,7 @@ public class ProductServiceTest {
         testProduct.setInventory(inventory);
     }
 
+
     @Test
     void createProduct_Success() {
         when(productRepository.save(any(Product.class))).thenReturn(testProduct);

@@ -24,7 +24,7 @@ public class OrderService {
 
     // order place kr rhe
     @Transactional
-    public Optional<Order> placeOrder(User user) {
+    public Optional<Order> placeOrder(long user) {
         Optional<Cart> cartOptional = cartService.getCartByUser(user);
         if (cartOptional.isPresent() && !cartOptional.get().getItems().isEmpty()) {
             Cart cart = cartOptional.get();

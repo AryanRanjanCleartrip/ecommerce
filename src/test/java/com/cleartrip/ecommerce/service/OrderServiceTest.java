@@ -70,7 +70,7 @@ public class OrderServiceTest {
         when(inventoryService.getInventoryByProduct(any())).thenReturn(Optional.of(inventory));
         when(orderRepository.save(any(Order.class))).thenReturn(testOrder);
 
-        Optional<Order> result = orderService.placeOrder(testUser);
+        Optional<Order> result = orderService.placeOrder(testUser.getId());
 
         assertTrue(result.isPresent());
         assertEquals(OrderStatus.PENDING, result.get().getStatus());

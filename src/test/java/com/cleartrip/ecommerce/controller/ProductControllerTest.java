@@ -35,6 +35,7 @@ public class ProductControllerTest {
     @MockBean
     private UserService userService;
 
+
     private ObjectMapper objectMapper = new ObjectMapper();
     private Product testProduct;
     private User adminUser;
