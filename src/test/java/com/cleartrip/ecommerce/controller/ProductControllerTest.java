@@ -60,9 +60,9 @@ public class ProductControllerTest {
         when(productService.createProduct(any(Product.class))).thenReturn(testProduct);
 
         mockMvc.perform(post("/api/products")
-                .param("userId", "1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testProduct)))
+                        .param("userId", "1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(testProduct)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Test Product"));
     }
@@ -73,8 +73,8 @@ public class ProductControllerTest {
         when(productService.getAllProducts(0, 10)).thenReturn(page);
 
         mockMvc.perform(get("/api/products")
-                .param("page", "0")
-                .param("size", "10"))
+                        .param("page", "0")
+                        .param("size", "10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("Test Product"));
     }
@@ -95,11 +95,11 @@ public class ProductControllerTest {
                 .thenReturn(page);
 
         mockMvc.perform(get("/api/products/filter")
-                .param("category", "Electronics")
-                .param("minPrice", "50.0")
-                .param("maxPrice", "100.0")
-                .param("page", "0")
-                .param("size", "10"))
+                        .param("category", "Electronics")
+                        .param("minPrice", "50.0")
+                        .param("maxPrice", "100.0")
+                        .param("page", "0")
+                        .param("size", "10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("Test Product"));
     }

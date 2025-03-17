@@ -58,7 +58,7 @@ public class CartControllerTest {
         when(cartService.addToCart(any(), any(), any())).thenReturn(Optional.of(testCart));
 
         mockMvc.perform(post("/api/cart/1/add/1")
-                .param("quantity", "1"))
+                        .param("quantity", "1"))
                 .andExpect(status().isOk());
     }
 
@@ -70,4 +70,4 @@ public class CartControllerTest {
         mockMvc.perform(get("/api/cart/1"))
                 .andExpect(status().isOk());
     }
-} 
+}

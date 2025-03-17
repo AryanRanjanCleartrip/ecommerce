@@ -7,9 +7,7 @@ import com.cleartrip.ecommerce.service.OrderService;
 import com.cleartrip.ecommerce.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -28,7 +25,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(OrderController.class)
 public class OrderControllerTest {
 
@@ -54,7 +50,7 @@ public class OrderControllerTest {
         testOrder = new Order();
         testOrder.setId(10L);
         testOrder.setUser(user);
-        testOrder.setOrderDate(LocalDateTime.now());
+        testOrder.setOrderDate(LocalDateTime.of(2025, 3, 17, 10, 0));
         testOrder.setTotalAmount(100.0);
         testOrder.setStatus(OrderStatus.PENDING);
     }
@@ -62,7 +58,7 @@ public class OrderControllerTest {
     @Test
     void placeOrder_success() throws Exception {
         when(userService.getUserById(1L)).thenReturn(Optional.of(user));
-        when(orderService.placeOrder(user.getId())).thenReturn(Optional.of(testOrder));
+        when(orderService.placeOrder(user)).thenReturn(Optional.of(testOrder)); // Fixed to pass User
 
         mockMvc.perform(post("/api/orders/1/place")
                         .contentType(MediaType.APPLICATION_JSON))

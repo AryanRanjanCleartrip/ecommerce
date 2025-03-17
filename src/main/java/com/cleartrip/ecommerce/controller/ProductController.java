@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.http.HttpStatus;
-// import com.cleartrip.ecommerce.model.User;
+ import com.cleartrip.ecommerce.model.User;
 import com.cleartrip.ecommerce.model.UserRole;
 import com.cleartrip.ecommerce.service.UserService;
 import org.springframework.data.domain.Page;

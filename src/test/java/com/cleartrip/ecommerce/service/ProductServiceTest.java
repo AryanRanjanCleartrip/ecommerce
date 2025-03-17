@@ -32,13 +32,13 @@ public class ProductServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        
+
         testProduct = new Product();
         testProduct.setId(1L);
         testProduct.setName("Test Product");
         testProduct.setPrice(99.99);
         testProduct.setCategory("Electronics");
-        
+
         Inventory inventory = new Inventory();
         inventory.setQuantity(10);
         testProduct.setInventory(inventory);
@@ -92,7 +92,7 @@ public class ProductServiceTest {
     void filterProducts_Success() {
         Page<Product> page = new PageImpl<>(Arrays.asList(testProduct));
         when(productRepository.findByFilters(anyString(), anyDouble(), anyDouble(), any(PageRequest.class)))
-            .thenReturn(page);
+                .thenReturn(page);
 
         Page<Product> result = productService.filterProducts("Electronics", 50.0, 100.0, 0, 10);
 
