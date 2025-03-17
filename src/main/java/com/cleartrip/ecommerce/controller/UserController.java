@@ -14,13 +14,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // register the user
+
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         return ResponseEntity.ok(userService.createUser(user));
     }
 
-    // login user
+
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestParam String name, @RequestParam String password) {
         return userService.login(name, password)
@@ -28,7 +28,7 @@ public class UserController {
                 .orElse(ResponseEntity.badRequest().body(Map.of("message", "Invalid credentials")));
     }
 
-    // get user by id
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         return userService.getUserById(id)
@@ -36,7 +36,7 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // get all users
+
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());

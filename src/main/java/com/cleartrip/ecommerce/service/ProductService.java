@@ -17,7 +17,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    // creating the product
+
     @Transactional
     public Product createProduct(Product product) {
         if (product.getInventory() != null) {
@@ -31,7 +31,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    // updating the product
+
     @Transactional
     public Optional<Product> updateProduct(Long id, Product updatedProduct) {
         return productRepository.findById(id)
@@ -52,7 +52,7 @@ public class ProductService {
             });
     }
 
-    // deleting the product
+
     public boolean deleteProduct(Long id) {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
@@ -61,27 +61,27 @@ public class ProductService {
         return false;
     }
 
-    // getting all the products
+
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
-    // getting the product by the id of product
+
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);
     }
 
-    // searching the product by the name
+
     public List<Product> searchByName(String name) {
         return productRepository.findByNameContainingIgnoreCase(name);
     }
 
-    // searching the product by the category
+
     public List<Product> searchByCategory(String category) {
         return productRepository.findByCategoryIgnoreCase(category);
     }
 
-    // filtering the products by the category and price range
+
     public Page<Product> filterProducts(
             String category, 
             Double minPrice, 
@@ -92,13 +92,13 @@ public class ProductService {
         return productRepository.findByFilters(category, minPrice, maxPrice, pageable);
     }
 
-    // getting all the products with help of pagination
+
     public Page<Product> getAllProducts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return productRepository.findAll(pageable);
     }
 
-    // sorting the products by the price
+
     public List<Product> sortProducts(String order){
         if(order.equals("asc")){
             return productRepository.findAll(Sort.by(Sort.Direction.ASC, "price"));
