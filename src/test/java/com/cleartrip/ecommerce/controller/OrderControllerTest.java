@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+// import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -58,7 +58,7 @@ public class OrderControllerTest {
     @Test
     void placeOrder_success() throws Exception {
         when(userService.getUserById(1L)).thenReturn(Optional.of(user));
-        when(orderService.placeOrder(user)).thenReturn(Optional.of(testOrder)); // Fixed to pass User
+        when(orderService.placeOrder(1L)).thenReturn(Optional.of(testOrder));
 
         mockMvc.perform(post("/api/orders/1/place")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -78,7 +78,7 @@ public class OrderControllerTest {
     @Test
     void getOrdersByUser_success() throws Exception {
         when(userService.getUserById(1L)).thenReturn(Optional.of(user));
-        when(orderService.getOrdersByUser(user)).thenReturn(Collections.singletonList(testOrder));
+        when(orderService.getOrdersByUser(1L)).thenReturn(Collections.singletonList(testOrder));
 
         mockMvc.perform(get("/api/orders/user/1"))
                 .andExpect(status().isOk())

@@ -1,12 +1,11 @@
 package com.cleartrip.ecommerce.controller;
 
 import com.cleartrip.ecommerce.model.Inventory;
-import com.cleartrip.ecommerce.model.Product;
 import com.cleartrip.ecommerce.service.InventoryService;
-import com.cleartrip.ecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -15,35 +14,27 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    @Autowired
-    private ProductService productService;
-
     // add stock to the inventory
     @PostMapping("/{productId}")
     public ResponseEntity<?> addStock(@PathVariable Long productId, @RequestParam Integer quantity) {
-        return productService.getProductById(productId)
-                .map(product -> ResponseEntity.ok(inventoryService.addStock(product, quantity)))
+        return inventoryService.addStock(productId, quantity)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     // update stock in the inventory
     @PutMapping("/{productId}")
     public ResponseEntity<?> updateStock(@PathVariable Long productId, @RequestParam Integer quantity) {
-        return productService.getProductById(productId)
-                .flatMap(product -> inventoryService.updateStock(product, quantity))
+        return inventoryService.updateStock(productId, quantity)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // delete stock from the inventory 
+    // delete stock from the inventory
     @DeleteMapping("/{productId}")
     public ResponseEntity<?> deleteStock(@PathVariable Long productId) {
-        return productService.getProductById(productId)
-                .map(product -> {
-                    boolean deleted = inventoryService.deleteStock(product);
-                    return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+        boolean deleted = inventoryService.deleteStock(productId);
+        return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     // get all inventory
@@ -55,9 +46,8 @@ public class InventoryController {
     // get inventory by product
     @GetMapping("/{productId}")
     public ResponseEntity<?> getInventoryByProduct(@PathVariable Long productId) {
-        return productService.getProductById(productId)
-                .flatMap(inventoryService::getInventoryByProduct)
+        return inventoryService.getInventoryByProduct(productId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-} 
+}

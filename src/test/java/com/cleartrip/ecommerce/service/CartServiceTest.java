@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -24,9 +24,11 @@ public class CartServiceTest {
     @Mock
     private InventoryService inventoryService;
 
-    @Autowired
-    private CartService cartService;
+    @Mock
+    private UserService userService;
 
+    @InjectMocks
+    private CartService cartService;
 
     private User testUser;
     private Product testProduct;
@@ -55,7 +57,7 @@ public class CartServiceTest {
     void getOrCreateCart_ExistingCart() {
         when(cartRepository.findByUser(testUser)).thenReturn(Optional.of(testCart));
 
-        Optional<Cart> result = cartService.getOrCreateCart(testUser);
+        Optional<Cart> result = cartService.getOrCreateCart(testUser.getId());
 
         assertTrue(result.isPresent());
         assertEquals(testUser.getId(), result.get().getUser().getId());
@@ -68,10 +70,12 @@ public class CartServiceTest {
         testProduct.setInventory(inventory);
 
         when(cartRepository.findByUser(testUser)).thenReturn(Optional.of(testCart));
-        when(inventoryService.getInventoryByProduct(testProduct)).thenReturn(Optional.of(inventory));
+        // when(inventoryService.getInventoryByProduct(testProduct)).thenReturn(Optional.of(inventory));
+        when(inventoryService.getInventoryByProduct(testProduct.getId())).thenReturn(Optional.of(inventory));
         when(cartRepository.save(any(Cart.class))).thenReturn(testCart);
 
-        Optional<Cart> result = cartService.addToCart(testUser, testProduct, 1);
+        // Optional<Cart> result = cartService.addToCart(testUser, testProduct, 1);
+        Optional<Cart> result = cartService.addToCart(1L, 1L, 1);
 
         assertTrue(result.isPresent());
         verify(cartRepository).save(any(Cart.class));
@@ -86,7 +90,8 @@ public class CartServiceTest {
         when(cartRepository.findByUser(testUser)).thenReturn(Optional.of(testCart));
         when(cartRepository.save(any(Cart.class))).thenReturn(testCart);
 
-        Optional<Cart> result = cartService.removeFromCart(testUser, testProduct);
+        // Optional<Cart> result = cartService.removeFromCart(testUser, testProduct);
+        Optional<Cart> result = cartService.removeFromCart(1L, 1L);
 
         assertTrue(result.isPresent());
         assertTrue(result.get().getItems().isEmpty());
